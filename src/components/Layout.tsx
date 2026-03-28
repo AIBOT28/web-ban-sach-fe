@@ -188,23 +188,27 @@ export default function Layout() {
 
   // ========== PUBLIC / USER LAYOUT ==========
   return (
-    <div className="min-h-screen bg-surface-50 bg-gradient-orbs flex flex-col pt-4">
+    <div className="min-h-screen bg-surface-50 flex flex-col overflow-x-hidden relative">
+      {/* Fixed background decorations */}
+      <div className="bg-orb-primary" />
+      <div className="bg-orb-accent" />
+
       {/* Navbar - Floating Glass */}
-      <header className="sticky top-4 z-50 transition-all duration-300 mx-4 sm:mx-6 lg:mx-auto max-w-7xl">
-        <div className="glass rounded-2xl flex items-center px-4 sm:px-6 h-16">
+      <header className="sticky top-2 sm:top-4 z-50 transition-all duration-300 mx-2 sm:mx-6 lg:mx-auto max-w-7xl">
+        <div className="glass rounded-2xl flex items-center px-3 sm:px-6 h-14 sm:h-16">
           {/* Logo */}
-          <Link to="/" className="flex items-center gap-2.5 mr-8 group">
+          <Link to="/" className="flex items-center gap-2 mr-4 sm:mr-8 group flex-shrink-0">
             <div className="p-1.5 bg-primary-50 rounded-lg group-hover:bg-primary-100 transition-colors">
-              <BookOpen className="w-6 h-6 text-primary-600" />
+              <BookOpen className="w-5 h-5 sm:w-6 sm:h-6 text-primary-600" />
             </div>
-            <span className="text-xl font-bold text-surface-900 tracking-tight group-hover:text-primary-600 transition-colors">BookStore</span>
+            <span className="text-lg sm:text-xl font-bold text-surface-900 tracking-tight group-hover:text-primary-600 transition-colors">BookStore</span>
           </Link>
 
-          {/* Center nav */}
+          {/* Center nav - Desktop only */}
           <nav className="hidden md:flex items-center gap-1 flex-1">
             <Link
               to="/"
-              className={`px-4 py-2 rounded-xl text-sm font-medium transition-all ${
+              className={`px-3 py-2 rounded-xl text-sm font-medium transition-all ${
                 location.pathname === '/'
                   ? 'bg-primary-50 text-primary-600 shadow-sm'
                   : 'text-surface-600 hover:bg-surface-100 hover:text-surface-900'
@@ -217,7 +221,7 @@ export default function Layout() {
             <div className="relative">
               <button
                 onClick={() => setCatMenuOpen(!catMenuOpen)}
-                className={`flex items-center gap-1.5 px-4 py-2 rounded-xl text-sm font-medium transition-all ${
+                className={`flex items-center gap-1.5 px-3 py-2 rounded-xl text-sm font-medium transition-all ${
                   catMenuOpen ? 'bg-surface-100 text-primary-600' : 'text-surface-600 hover:bg-surface-100 hover:text-surface-900'
                 }`}
               >
@@ -257,7 +261,7 @@ export default function Layout() {
               </AnimatePresence>
             </div>
 
-            {/* Header Search Bar */}
+            {/* Header Search Bar - Desktop Only */}
             <form onSubmit={handleSearch} className="relative ml-4 flex-1 max-w-md hidden lg:block">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-surface-400" />
               <input
@@ -271,7 +275,16 @@ export default function Layout() {
           </nav>
 
           {/* Right side */}
-          <div className="flex items-center gap-2 sm:gap-3 ml-auto">
+          <div className="flex items-center gap-1 sm:gap-3 ml-auto">
+            {/* Search Icon - Mobile Only Toggle UI logic in a real app would be better but let's just make sure it doesn't break layout */}
+            <Link 
+              to="/books" 
+              className="md:hidden p-2 rounded-xl text-surface-600 hover:bg-surface-100 transition-all"
+              title="Tìm kiếm"
+            >
+              <Search className="w-5 h-5" />
+            </Link>
+
             {/* Shopping Cart Icon */}
             {user && (
               <Link
@@ -279,9 +292,9 @@ export default function Layout() {
                 className="relative p-2 rounded-xl text-surface-600 hover:bg-surface-100 hover:text-primary-600 transition-all group"
                 title="Giỏ hàng"
               >
-                <ShoppingCart className="w-6 h-6" />
+                <ShoppingCart className="w-5 h-5 sm:w-6 sm:h-6" />
                 {useCart().cartCount > 0 && (
-                  <span className="absolute -top-1 -right-1 min-w-[20px] h-5 px-1 bg-danger-500 text-white text-[10px] font-bold rounded-full flex items-center justify-center border-2 border-white shadow-sm animate-pulse-glow">
+                  <span className="absolute -top-1 -right-1 min-w-[18px] sm:min-w-[20px] h-4.5 sm:h-5 px-1 bg-rose-500 text-white text-[9px] sm:text-[10px] font-bold rounded-full flex items-center justify-center border-2 border-white shadow-sm">
                     {useCart().cartCount}
                   </span>
                 )}
@@ -292,19 +305,19 @@ export default function Layout() {
               <div className="relative">
                 <button
                   onClick={() => setUserMenuOpen(!userMenuOpen)}
-                  className="flex items-center gap-2 px-3 py-1.5 rounded-xl hover:bg-surface-100 transition-all"
+                  className="flex items-center gap-2 px-2 sm:px-3 py-1.5 rounded-xl hover:bg-surface-100 transition-all"
                 >
-                  <div className="w-8 h-8 rounded-full bg-gradient-to-br from-primary-500 to-accent-500 flex items-center justify-center text-white text-sm font-bold shadow-sm shadow-primary-500/30">
+                  <div className="w-8 h-8 rounded-full bg-gradient-to-br from-primary-500 to-accent-500 flex items-center justify-center text-white text-xs sm:text-sm font-bold shadow-sm shadow-primary-500/30">
                     {user.username.charAt(0).toUpperCase()}
                   </div>
                   <span className="text-sm font-medium text-surface-700 hidden sm:block">{user.username}</span>
-                  <ChevronDown className="w-4 h-4 text-surface-400" />
+                  <ChevronDown className="w-4 h-4 text-surface-400 hidden sm:block" />
                 </button>
 
                 {userMenuOpen && (
                   <>
                     <div className="fixed inset-0 z-40" onClick={() => setUserMenuOpen(false)} />
-                    <div className="absolute right-0 mt-2 w-64 glass rounded-2xl py-2 z-50 shadow-xl border border-surface-200 animate-fade-in-up">
+                    <div className="absolute right-0 mt-2 w-64 glass rounded-2xl py-2 z-50 shadow-xl border border-surface-200">
                       <div className="px-5 py-3 border-b border-surface-100 mb-2">
                         <p className="text-sm font-bold text-surface-900">{user.username}</p>
                         <p className="text-xs text-surface-500 mb-2">{user.email}</p>
@@ -349,16 +362,16 @@ export default function Layout() {
                 )}
               </div>
             ) : (
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-1 sm:gap-2">
                 <Link
                   to="/login"
-                  className="px-4 py-2 text-sm font-medium text-surface-600 hover:text-surface-900 rounded-xl hover:bg-surface-100 transition-all"
+                  className="hidden sm:block px-4 py-2 text-sm font-medium text-surface-600 hover:text-surface-900 rounded-xl hover:bg-surface-100 transition-all"
                 >
                   Đăng nhập
                 </Link>
                 <Link
                   to="/register"
-                  className="btn-gradient px-5 py-2.5 text-sm font-medium rounded-xl shadow-md"
+                  className="hidden sm:block btn-gradient px-5 py-2.5 text-sm font-medium rounded-xl shadow-md"
                 >
                   Đăng ký
                 </Link>
@@ -373,27 +386,85 @@ export default function Layout() {
         </div>
 
         {/* Mobile menu */}
-        {mobileMenuOpen && (
-          <div className="md:hidden glass border border-surface-200 mt-2 rounded-2xl py-3 px-4 shadow-xl animate-fade-in-up">
-            <Link to="/" onClick={() => setMobileMenuOpen(false)} className="block px-4 py-3 rounded-xl text-sm font-medium text-surface-700 hover:bg-surface-100">
-              Trang chủ
-            </Link>
-            {!user && (
-              <>
-                <Link to="/login" onClick={() => setMobileMenuOpen(false)} className="block px-4 py-3 rounded-xl text-sm font-medium text-surface-700 hover:bg-surface-100 mt-1">
-                  Đăng nhập
-                </Link>
-                <Link to="/register" onClick={() => setMobileMenuOpen(false)} className="block px-4 py-3 rounded-xl text-sm font-medium text-primary-600 bg-primary-50 mt-1">
-                  Đăng ký
-                </Link>
-              </>
-            )}
-          </div>
-        )}
+        <AnimatePresence>
+          {mobileMenuOpen && (
+            <>
+              <motion.div 
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                className="fixed inset-0 bg-black/20 backdrop-blur-sm z-40 md:hidden"
+                onClick={() => setMobileMenuOpen(false)}
+              />
+              <motion.div
+                initial={{ opacity: 0, scale: 0.95, y: -20 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.95, y: -20 }}
+                className="md:hidden absolute top-full left-0 right-0 glass border border-surface-200 mt-2 rounded-2xl py-4 px-5 z-50 shadow-2xl"
+              >
+                <div className="space-y-1">
+                  <Link to="/" onClick={() => setMobileMenuOpen(false)} className="flex items-center gap-3 px-4 py-3 rounded-xl text-base font-bold text-surface-700 hover:bg-surface-100">
+                    <Home className="w-5 h-5 text-primary-500" /> Trang chủ
+                  </Link>
+                  <Link to="/books" onClick={() => setMobileMenuOpen(false)} className="flex items-center gap-3 px-4 py-3 rounded-xl text-base font-bold text-surface-700 hover:bg-surface-100">
+                    <Library className="w-5 h-5 text-primary-500" /> Tất cả sách
+                  </Link>
+                  
+                  <div className="py-2">
+                    <p className="px-4 text-[10px] font-bold text-surface-400 uppercase tracking-widest mb-2">Danh mục sách</p>
+                    <div className="grid grid-cols-2 gap-2">
+                      {categories.map(cat => (
+                        <Link
+                          key={cat.id}
+                          to={`/books?categoryId=${cat.id}`}
+                          onClick={() => setMobileMenuOpen(false)}
+                          className="px-4 py-2 text-sm text-surface-600 hover:text-primary-600 font-medium"
+                        >
+                          {cat.name}
+                        </Link>
+                      ))}
+                    </div>
+                  </div>
+
+                  {!user ? (
+                    <div className="pt-4 grid grid-cols-2 gap-3">
+                      <Link 
+                        to="/login" 
+                        onClick={() => setMobileMenuOpen(false)} 
+                        className="flex items-center justify-center px-4 py-3 rounded-xl text-sm font-bold text-surface-700 bg-surface-50 border border-surface-200"
+                      >
+                        Đăng nhập
+                      </Link>
+                      <Link 
+                        to="/register" 
+                        onClick={() => setMobileMenuOpen(false)} 
+                        className="flex items-center justify-center px-4 py-3 rounded-xl text-sm font-bold text-white btn-gradient"
+                      >
+                        Đăng ký
+                      </Link>
+                    </div>
+                  ) : (
+                    <div className="pt-4 border-t border-surface-100 mt-4 space-y-1">
+                      <Link to="/profile" onClick={() => setMobileMenuOpen(false)} className="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-surface-600 hover:bg-surface-50">
+                        <User className="w-5 h-5" /> Hồ sơ cá nhân
+                      </Link>
+                      <button 
+                        onClick={() => { setMobileMenuOpen(false); handleLogout(); }} 
+                        className="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-danger-500 hover:bg-danger-50 w-full text-left"
+                      >
+                        <LogOut className="w-5 h-5" /> Đăng xuất
+                      </button>
+                    </div>
+                  )}
+                </div>
+              </motion.div>
+            </>
+          )}
+        </AnimatePresence>
       </header>
 
       {/* Page content */}
-      <main className="relative z-10 flex-1 mt-4">
+      <main className="relative z-10 flex-1 mt-2 sm:mt-4">
         <Outlet />
       </main>
       

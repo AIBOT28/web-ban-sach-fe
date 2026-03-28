@@ -100,7 +100,7 @@ export default function HomePage() {
         <div className="absolute top-0 right-0 w-96 h-96 bg-primary-100 rounded-full blur-[100px] -z-10" />
         <div className="absolute bottom-0 left-0 w-96 h-96 bg-accent-100 rounded-full blur-[100px] -z-10" />
         
-        <div className="flex flex-col lg:flex-row items-center gap-12 relative z-10 bg-white/80 backdrop-blur-xl p-8 md:p-12 rounded-3xl border border-surface-200 shadow-xl">
+        <div className="flex flex-col lg:flex-row items-center gap-8 lg:gap-12 relative z-10 bg-white/80 backdrop-blur-xl p-6 md:p-12 rounded-3xl border border-surface-200 shadow-xl overflow-hidden">
           {/* Text Content */}
           <motion.div 
             initial={{ opacity: 0, x: -30 }}
@@ -116,7 +116,7 @@ export default function HomePage() {
               Nền tảng đọc sách #1
             </div>
             
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-tight tracking-tight text-surface-900">
+            <h1 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold leading-tight tracking-tight text-surface-900">
               Khơi nguồn <br className="hidden lg:block"/> 
               <span className="gradient-text">Tri thức vô tận</span>
             </h1>

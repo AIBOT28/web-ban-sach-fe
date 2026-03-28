@@ -36,6 +36,7 @@
 
 html {
   scroll-behavior: smooth;
+  overflow-x: hidden;
 }
 
 body {
@@ -46,6 +47,7 @@ body {
   min-height: 100vh;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
 }
 
 /* Scrollbar styling */
@@ -196,19 +198,21 @@ body {
 .toast-success { color: var(--color-success-500); border-left: 4px solid var(--color-success-500); }
 .toast-error { color: var(--color-danger-500); border-left: 4px solid var(--color-danger-500); }
 
-/* Page background gradient orbs - Light mode style */
-.bg-gradient-orbs::before,
-.bg-gradient-orbs::after {
-  content: '';
-  position: absolute;
+/* Page background gradient orbs - Optimized to not push document height */
+.bg-gradient-orbs {
+  position: relative;
+}
+
+.bg-orb-primary, .bg-orb-accent {
+  position: fixed;
   border-radius: 50%;
   filter: blur(120px);
   opacity: 0.4;
   pointer-events: none;
-  z-index: 0;
+  z-index: -10;
 }
 
-.bg-gradient-orbs::before {
+.bg-orb-primary {
   width: 600px;
   height: 600px;
   background: #dbeafe; /* very light blue */
@@ -216,7 +220,7 @@ body {
   right: -100px;
 }
 
-.bg-gradient-orbs::after {
+.bg-orb-accent {
   width: 500px;
   height: 500px;
   background: #e0f2fe; /* light sky */
