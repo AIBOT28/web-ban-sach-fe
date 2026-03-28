@@ -223,120 +223,102 @@ export default function HomePage() {
         </p>
       </div>
 
-      {/* Loading */}
+      {/* Book grid */}
       {loading ? (
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
+        <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
           {Array.from({ length: 8 }).map((_, i) => (
-            <div key={i} className="bg-white border border-surface-200 rounded-2xl overflow-hidden animate-pulse shadow-sm">
-              <div className="aspect-[3/4] bg-surface-100" />
+            <div key={i} className="bg-white/50 border border-surface-100 rounded-3xl overflow-hidden animate-pulse">
+              <div className="aspect-[3/4] bg-surface-50" />
               <div className="p-4 space-y-3">
-                <div className="h-4 bg-surface-200 rounded w-3/4" />
-                <div className="h-3 bg-surface-100 rounded w-1/2" />
-                <div className="h-5 bg-surface-200 rounded w-2/3" />
+                <div className="h-4 bg-surface-50 rounded w-3/4" />
+                <div className="h-3 bg-surface-50 rounded w-1/2" />
+                <div className="h-5 bg-surface-50 rounded w-2/3" />
               </div>
             </div>
           ))}
         </div>
       ) : books.length === 0 ? (
-        /* Empty state */
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          className="text-center py-20"
+          className="text-center py-20 bg-surface-50/50 rounded-[40px] border-2 border-dashed border-surface-100"
         >
-          <Package className="w-16 h-16 text-surface-300 mx-auto mb-4" />
-          <p className="text-surface-500 text-lg">Không tìm thấy sách nào</p>
+          <Package className="w-12 h-12 text-surface-200 mx-auto mb-4" />
+          <p className="text-surface-500 text-lg font-bold">Không tìm thấy sách nào</p>
           <p className="text-surface-400 text-sm mt-1">Hãy thử tìm với từ khóa khác</p>
         </motion.div>
       ) : (
-        /* Book grid */
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
+        <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
           {books.map((book, index) => (
             <motion.div
               key={book.id}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: index * 0.05 }}
             >
               <Link
                 to={`/books/${book.id}`}
-                className="group flex flex-col h-full bg-white border border-surface-200 rounded-3xl overflow-hidden hover:border-primary-300 transition-all duration-300 hover:shadow-xl hover:-translate-y-1"
+                className="group flex flex-col h-full bg-white/40 hover:bg-white border border-surface-100 rounded-[32px] overflow-hidden transition-all duration-300 hover:shadow-2xl hover:shadow-primary-500/10 hover:-translate-y-1.5"
               >
-                {/* Image */}
-                <div className="aspect-[3/4] bg-surface-100 relative overflow-hidden">
+                {/* Image Container */}
+                <div className="aspect-[3.5/4] bg-surface-50 relative overflow-hidden m-2 rounded-[24px]">
                   {book.mainImageUrl ? (
                     <img
                       src={book.mainImageUrl}
                       alt={book.title}
-                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-out"
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
                     />
                   ) : (
-                    <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-surface-50 to-surface-200 group-hover:scale-105 transition-transform duration-700">
-                      <BookOpen className="w-12 h-12 text-surface-300" />
+                    <div className="w-full h-full flex items-center justify-center bg-surface-100">
+                      <BookOpen className="w-10 h-10 text-surface-200" />
                     </div>
                   )}
                   {book.discountRate > 0 && (
-                    <div className="absolute top-3 right-3 bg-gradient-to-r from-danger-500 to-rose-500 text-white text-xs font-bold px-2.5 py-1.5 rounded-xl shadow-md">
+                    <div className="absolute top-2 right-2 bg-rose-500 text-white text-[10px] font-black px-2 py-1 rounded-lg shadow-lg">
                       -{book.discountRate}%
                     </div>
                   )}
-                  {/* Subtle hover overlay */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                 </div>
 
-                {/* Info */}
-                <div className="p-5 flex flex-col flex-1 bg-white">
-                  {book.categoryName && (
-                    <div className="flex items-center gap-2 mb-3">
-                      <div className="w-1.5 h-1.5 rounded-full bg-primary-500 shadow-sm shadow-primary-500/50" />
-                      <span className="text-xs font-semibold text-primary-600 uppercase tracking-wide">{book.categoryName}</span>
-                    </div>
-                  )}
-                  <h3 className="text-base font-bold text-surface-900 line-clamp-2 group-hover:text-primary-600 transition-colors mb-3 leading-snug">
+                {/* Info Container */}
+                <div className="p-4 flex flex-col flex-1">
+                  <h3 className="text-sm font-bold text-surface-900 line-clamp-2 group-hover:text-primary-600 transition-colors mb-2 leading-tight">
                     {book.title}
                   </h3>
                   
-                  <div className="mt-auto pt-4 flex items-end justify-between border-t border-surface-100">
-                    <div>
+                  <div className="mt-auto flex items-center justify-between pt-2">
+                    <div className="flex flex-col">
                       {book.discountRate > 0 ? (
-                        <div className="flex flex-col">
-                          <span className="text-xs text-surface-400 line-through mb-1 font-medium">
+                        <>
+                          <span className="text-[10px] text-surface-400 line-through font-medium">
                             {formatCurrency(book.price)}
                           </span>
-                          <span className="text-xl font-black text-transparent bg-clip-text bg-gradient-to-r from-primary-600 to-accent-600">
+                          <span className="text-base font-black text-primary-600">
                             {formatCurrency(calcFinalPrice(book.price, book.discountRate))}
                           </span>
-                        </div>
+                        </>
                       ) : (
-                        <span className="text-xl font-black text-surface-900">
+                        <span className="text-base font-black text-surface-900">
                           {formatCurrency(book.price)}
                         </span>
                       )}
                     </div>
                     
-                    {/* Quick Add Button */}
-                    <div className="flex items-center gap-2">
-                      <button
-                        onClick={(e) => handleQuickAdd(e, book)}
-                        disabled={addingId === book.id || book.stockQuantity === 0}
-                        className={`w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 ${
-                          book.stockQuantity === 0
-                            ? 'bg-surface-100 text-surface-400 cursor-not-allowed'
-                            : 'bg-primary-50 text-primary-600 hover:bg-primary-600 hover:text-white shadow-sm'
-                        }`}
-                        title={book.stockQuantity === 0 ? 'Hết hàng' : 'Thêm nhanh vào giỏ'}
-                      >
-                        {addingId === book.id ? (
-                          <div className="w-4 h-4 border-2 border-current border-t-transparent rounded-full animate-spin" />
-                        ) : (
-                          <ShoppingCart className="w-5 h-5" />
-                        )}
-                      </button>
-                      
-                      <div className="w-10 h-10 rounded-full bg-surface-50 flex items-center justify-center text-surface-400 group-hover:bg-primary-50 group-hover:text-primary-600 transition-colors">
-                        <ChevronRight className="w-5 h-5" />
-                      </div>
-                    </div>
+                    <button
+                      onClick={(e) => handleQuickAdd(e, book)}
+                      disabled={addingId === book.id || book.stockQuantity === 0}
+                      className={`w-9 h-9 rounded-2xl flex items-center justify-center transition-all duration-300 ${
+                        book.stockQuantity === 0
+                          ? 'bg-surface-50 text-surface-300 cursor-not-allowed'
+                          : 'bg-primary-50 text-primary-600 hover:bg-primary-600 hover:text-white shadow-sm'
+                      }`}
+                    >
+                      {addingId === book.id ? (
+                        <div className="w-4 h-4 border-2 border-current border-t-transparent rounded-full animate-spin" />
+                      ) : (
+                        <ShoppingCart className="w-4 h-4" />
+                      )}
+                    </button>
                   </div>
                 </div>
               </Link>
@@ -347,45 +329,43 @@ export default function HomePage() {
 
       {/* Pagination */}
       {totalPages > 1 && (
-        <div className="flex items-center justify-center gap-2 mt-10">
+        <div className="flex items-center justify-center gap-1.5 mt-16 pb-12">
           <button
             onClick={() => setPage((p) => Math.max(1, p - 1))}
             disabled={page === 1}
-            className="p-2 rounded-lg bg-white border border-surface-200 text-surface-600 hover:bg-surface-50 hover:text-primary-600 disabled:opacity-40 disabled:hover:bg-white transition-all shadow-sm"
+            className="w-10 h-10 rounded-2xl bg-white border border-surface-100 text-surface-400 hover:text-primary-600 hover:border-primary-100 disabled:opacity-25 transition-all flex items-center justify-center shadow-sm"
           >
             <ChevronLeft className="w-5 h-5" />
           </button>
 
-          {Array.from({ length: Math.min(totalPages, 7) }, (_, i) => {
-            let pageNum: number;
-            if (totalPages <= 7) {
-              pageNum = i + 1;
-            } else if (page <= 4) {
-              pageNum = i + 1;
-            } else if (page >= totalPages - 3) {
-              pageNum = totalPages - 6 + i;
-            } else {
-              pageNum = page - 3 + i;
-            }
-            return (
-              <button
-                key={pageNum}
-                onClick={() => setPage(pageNum)}
-                className={`w-10 h-10 rounded-lg text-sm font-medium transition-all shadow-sm ${
-                  page === pageNum
-                    ? 'btn-gradient'
-                    : 'bg-white border border-surface-200 text-surface-600 hover:bg-surface-50 hover:text-primary-600'
-                }`}
-              >
-                {pageNum}
-              </button>
-            );
-          })}
+          <div className="flex items-center gap-1.5">
+            {Array.from({ length: Math.min(totalPages, 5) }, (_, i) => {
+              let pageNum: number;
+              if (totalPages <= 5) pageNum = i + 1;
+              else if (page <= 3) pageNum = i + 1;
+              else if (page >= totalPages - 2) pageNum = totalPages - 4 + i;
+              else pageNum = page - 2 + i;
+              
+              return (
+                <button
+                  key={pageNum}
+                  onClick={() => setPage(pageNum)}
+                  className={`w-10 h-10 rounded-2xl text-xs font-black transition-all ${
+                    page === pageNum
+                      ? 'bg-primary-600 text-white shadow-lg shadow-primary-500/30 scale-110'
+                      : 'bg-white border border-surface-100 text-surface-400 hover:border-primary-100 hover:text-primary-600'
+                  }`}
+                >
+                  {pageNum}
+                </button>
+              );
+            })}
+          </div>
 
           <button
             onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
             disabled={page === totalPages}
-            className="p-2 rounded-lg bg-white border border-surface-200 text-surface-600 hover:bg-surface-50 hover:text-primary-600 disabled:opacity-40 disabled:hover:bg-white transition-all shadow-sm"
+            className="w-10 h-10 rounded-2xl bg-white border border-surface-100 text-surface-400 hover:text-primary-600 hover:border-primary-100 disabled:opacity-25 transition-all flex items-center justify-center shadow-sm"
           >
             <ChevronRight className="w-5 h-5" />
           </button>
