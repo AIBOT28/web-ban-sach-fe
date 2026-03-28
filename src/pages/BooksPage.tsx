@@ -12,7 +12,7 @@ export default function BooksPage() {
   const navigate = useNavigate();
   const { user } = useAuth();
   const { addToCart } = useCart();
-  
+
   const [books, setBooks] = useState<Book[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
   const [totalCount, setTotalCount] = useState(0);
@@ -66,7 +66,7 @@ export default function BooksPage() {
   const handleQuickAdd = async (e: React.MouseEvent, book: Book) => {
     e.preventDefault();
     e.stopPropagation();
-    
+
     if (!user) {
       navigate('/login');
       return;
@@ -108,11 +108,10 @@ export default function BooksPage() {
             initial={{ opacity: 0, y: -20, x: '-50%' }}
             animate={{ opacity: 1, y: 20, x: '-50%' }}
             exit={{ opacity: 0, y: -20, x: '-50%' }}
-            className={`fixed top-4 left-1/2 z-[100] px-6 py-3 rounded-2xl shadow-2xl border flex items-center gap-3 font-bold text-sm min-w-[320px] ${
-              toast.type === 'success' 
-                ? 'bg-success-50 text-success-700 border-success-100 shadow-success-500/10' 
+            className={`fixed top-4 left-1/2 z-[100] px-6 py-3 rounded-2xl shadow-2xl border flex items-center gap-3 font-bold text-sm min-w-[320px] ${toast.type === 'success'
+                ? 'bg-success-50 text-success-700 border-success-100 shadow-success-500/10'
                 : 'bg-danger-50 text-danger-700 border-danger-100 shadow-danger-500/10'
-            }`}
+              }`}
           >
             {toast.type === 'success' ? <CheckCircle className="w-5 h-5 text-success-500" /> : <AlertCircle className="w-5 h-5 text-danger-500" />}
             {toast.text}
@@ -130,11 +129,10 @@ export default function BooksPage() {
               next.set('page', '1');
               setSearchParams(next);
             }}
-            className={`flex-shrink-0 px-4 py-2 rounded-full text-sm font-medium transition-all ${
-              !categoryId 
+            className={`flex-shrink-0 px-4 py-2 rounded-full text-sm font-medium transition-all ${!categoryId
                 ? 'bg-primary-600 text-white shadow-lg shadow-primary-500/25'
                 : 'bg-surface-50 text-surface-600 border border-surface-200'
-            }`}
+              }`}
           >
             Tất cả
           </button>
@@ -147,11 +145,10 @@ export default function BooksPage() {
                 next.set('page', '1');
                 setSearchParams(next);
               }}
-              className={`flex-shrink-0 px-4 py-2 rounded-full text-sm font-medium transition-all ${
-                categoryId === cat.id.toString()
+              className={`flex-shrink-0 px-4 py-2 rounded-full text-sm font-medium transition-all ${categoryId === cat.id.toString()
                   ? 'bg-primary-600 text-white shadow-lg shadow-primary-500/25'
                   : 'bg-surface-50 text-surface-600 border border-surface-200'
-              }`}
+                }`}
             >
               {cat.name}
             </button>
@@ -206,11 +203,10 @@ export default function BooksPage() {
                       next.set('page', '1');
                       setSearchParams(next);
                     }}
-                    className={`text-left px-3 py-2 rounded-xl text-sm transition-all ${
-                      !categoryId 
+                    className={`text-left px-3 py-2 rounded-xl text-sm transition-all ${!categoryId
                         ? 'bg-primary-50 text-primary-600 font-bold border border-primary-100/50'
                         : 'text-surface-600 hover:bg-surface-50 hover:text-surface-900'
-                    }`}
+                      }`}
                   >
                     Tất cả sách
                   </button>
@@ -223,11 +219,10 @@ export default function BooksPage() {
                         next.set('page', '1');
                         setSearchParams(next);
                       }}
-                      className={`text-left px-3 py-2 rounded-xl text-sm transition-all ${
-                        categoryId === cat.id.toString()
+                      className={`text-left px-3 py-2 rounded-xl text-sm transition-all ${categoryId === cat.id.toString()
                           ? 'bg-primary-50 text-primary-600 font-bold border border-primary-100/50'
                           : 'text-surface-600 hover:bg-surface-50 hover:text-surface-900'
-                      }`}
+                        }`}
                     >
                       {cat.name}
                     </button>
@@ -315,7 +310,7 @@ export default function BooksPage() {
                         <h3 className="text-sm font-bold text-surface-900 line-clamp-2 group-hover:text-primary-600 transition-colors mb-2 leading-tight">
                           {book.title}
                         </h3>
-                        
+
                         <div className="mt-auto flex items-center justify-between pt-2">
                           <div className="flex flex-col">
                             {book.discountRate > 0 ? (
@@ -333,15 +328,14 @@ export default function BooksPage() {
                               </span>
                             )}
                           </div>
-                          
+
                           <button
                             onClick={(e) => handleQuickAdd(e, book)}
                             disabled={addingId === book.id || book.stockQuantity === 0}
-                            className={`w-9 h-9 rounded-2xl flex items-center justify-center transition-all duration-300 ${
-                              book.stockQuantity === 0
+                            className={`w-9 h-9 rounded-2xl flex items-center justify-center transition-all duration-300 ${book.stockQuantity === 0
                                 ? 'bg-surface-50 text-surface-300 cursor-not-allowed'
                                 : 'bg-primary-50 text-primary-600 hover:bg-primary-600 hover:text-white shadow-sm'
-                            }`}
+                              }`}
                           >
                             {addingId === book.id ? (
                               <div className="w-4 h-4 border-2 border-current border-t-transparent rounded-full animate-spin" />
@@ -374,16 +368,15 @@ export default function BooksPage() {
                       else if (page <= 3) pageNum = i + 1;
                       else if (page >= totalPages - 2) pageNum = totalPages - 4 + i;
                       else pageNum = page - 2 + i;
-                      
+
                       return (
                         <button
                           key={pageNum}
                           onClick={() => updatePage(pageNum)}
-                          className={`w-10 h-10 rounded-2xl text-xs font-black transition-all ${
-                            page === pageNum
+                          className={`w-10 h-10 rounded-2xl text-xs font-black transition-all ${page === pageNum
                               ? 'bg-primary-600 text-white shadow-lg shadow-primary-500/30 scale-110'
                               : 'bg-white border border-surface-100 text-surface-400 hover:border-primary-100 hover:text-primary-600'
-                          }`}
+                            }`}
                         >
                           {pageNum}
                         </button>
@@ -406,5 +399,4 @@ export default function BooksPage() {
       </div>
     </div>
   );
-}
 }
