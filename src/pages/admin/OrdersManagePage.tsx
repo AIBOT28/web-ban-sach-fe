@@ -202,7 +202,7 @@ export default function OrdersManagePage() {
     // here we use my-orders as fallback (replace if backend has /api/Orders/all)
     try {
       // Try admin "all orders" endpoint; if 403 it returns empty
-      const res = await api.get<Order[]>('/api/Orders/my-orders');
+      const res = await api.get<Order[]>('/api/Orders/my-order-all');
       setOrders(res.data ?? []);
     } catch (err: any) {
       setError(err.message || 'Không thể tải danh sách đơn hàng');
